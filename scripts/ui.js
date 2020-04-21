@@ -9,9 +9,35 @@ const initUI = () => {
   const stopScreenShareBtn = document.getElementById('stop-screenshare-btn');
   const startRecordingBtn = document.getElementById('start-recording-btn');
   const stopRecordingBtn = document.getElementById('stop-recording-btn');
+  const muteBtn = document.getElementById('mute-btn');
+  const unMuteBtn = document.getElementById('un-mute-btn');
+
   
   nameMessage.innerHTML = `You are logged in as ${randomName}`;
   joinButton.disabled = false;
+
+  unMuteBtn.onclick = () => {
+    let isMuted = false;
+
+    muteBtn.disabled = false;
+    unMuteBtn.disabled = true;
+
+    VoxeetSDK.conference.mute(VoxeetSDK.session.participant, isMuted)
+    .catch((error) => {
+        console.log("error", error);
+    });
+  };
+
+  muteBtn.onclick = () => {
+    let isMuted = true;
+    muteBtn.disabled = true;
+    unMuteBtn.disabled = false;
+
+    VoxeetSDK.conference.mute(VoxeetSDK.session.participant, isMuted)
+    .catch((error) => {
+        console.log("error", error);
+    });
+  };
 
   joinButton.onclick = () => {
       let conferenceAlias = conferenceAliasInput.value;
@@ -28,6 +54,7 @@ const initUI = () => {
               startVideoBtn.disabled = false;
               startScreenShareBtn.disabled = false;
               startRecordingBtn.disabled = false;
+              muteBtn.disabled = false;
           })
           .catch((e) => console.log('Something wrong happened : ' + e))
   };
