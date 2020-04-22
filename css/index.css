@@ -56,13 +56,15 @@
 
   .header {
     height: 30px;
-    text-align: center;
     background: #1abc9c;
     color: white;
     font-size: 22px;
     font-weight: bold
   }
 
+  .logo_txt {
+    margin-left: 2px;
+  }
   .logo{
     width: 30px;
     float: left;
