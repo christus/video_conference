@@ -13,8 +13,30 @@ const initUI = () => {
   const unMuteBtn = document.getElementById('un-mute-btn');
 
   
-  nameMessage.innerHTML = `You are logged in as ${randomName}`;
   joinButton.disabled = false;
+
+  const queryString = window.location.search;
+  console.log(queryString);
+
+  const urlParams = new URLSearchParams(queryString);
+  console.log("urlParams", urlParams);
+
+
+  let meetingId;
+  if(urlParams.has('id')){
+    meetingId = urlParams.get('id');
+    console.log("uniqueIs", meetingId);
+  }
+
+  let name;
+  if(urlParams.has('name')){
+    name = urlParams.get('name');
+    console.log("name is", name);
+  }
+
+  nameMessage.innerHTML = `You are logged in as ${name}`;
+
+  joinConference(meetingId);
 
   unMuteBtn.onclick = () => {
     let isMuted = false;
@@ -39,25 +61,9 @@ const initUI = () => {
     });
   };
 
-  joinButton.onclick = () => {
-      let conferenceAlias = conferenceAliasInput.value;
-
-      /*
-      1. Create a conference room with an alias
-      2. Join the conference with its id
-      */
-      VoxeetSDK.conference.create({ alias: conferenceAlias })
-          .then((conference) => VoxeetSDK.conference.join(conference, {}))
-          .then(() => {
-              joinButton.disabled = true;
-              leaveButton.disabled = false;
-              startVideoBtn.disabled = false;
-              startScreenShareBtn.disabled = false;
-              startRecordingBtn.disabled = false;
-              muteBtn.disabled = false;
-          })
-          .catch((e) => console.log('Something wrong happened : ' + e))
-  };
+//   joinButton.onclick = () => {
+//     joinConference(meetingId);
+//   };
 
   leaveButton.onclick = () => {
       VoxeetSDK.conference.leave()
@@ -66,6 +72,7 @@ const initUI = () => {
               leaveButton.disabled = true;
               startScreenShareBtn.disabled = true;
               stopScreenShareBtn.disabled = true;
+              VoxeetSDK.session.close();
           })
           .catch((err) => {
               console.log(err);
@@ -131,6 +138,29 @@ const initUI = () => {
               console.log(err);
           })
   };
+
+    function joinConference(meetingId){
+
+        //   let conferenceAlias = conferenceAliasInput.value;
+        let conferenceAlias = meetingId;
+
+        /*
+        1. Create a conference room with an alias
+        2. Join the conference with its id
+        */
+        VoxeetSDK.conference.create({ alias: conferenceAlias })
+          .then((conference) => VoxeetSDK.conference.join(conference, {}))
+          .then(() => {
+              joinButton.disabled = true;
+              leaveButton.disabled = false;
+              startVideoBtn.disabled = false;
+              startScreenShareBtn.disabled = false;
+              startRecordingBtn.disabled = false;
+              muteBtn.disabled = false;
+          })
+          .catch((e) => console.log('Something wrong happened : ' + e))
+    }
+
 };
 
 const addVideoNode = (participant, stream) => {
@@ -141,8 +171,8 @@ const addVideoNode = (participant, stream) => {
       videoNode = document.createElement('video');
       
       videoNode.setAttribute('id', 'video-' + participant.id);
-      videoNode.setAttribute('height', 240);
-      videoNode.setAttribute('width', 320);
+      videoNode.setAttribute('height', 140);
+      videoNode.setAttribute('width', 160);
       
       videoContainer.appendChild(videoNode);
       
