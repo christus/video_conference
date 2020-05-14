@@ -149,7 +149,9 @@ const initUI = () => {
         2. Join the conference with its id
         */
         VoxeetSDK.conference.create({ alias: conferenceAlias })
-          .then((conference) => VoxeetSDK.conference.join(conference, {}))
+          .then((conference) => {
+            VoxeetSDK.conference.join(conference, {});
+          })
           .then(() => {
               joinButton.disabled = true;
               leaveButton.disabled = false;
@@ -171,8 +173,8 @@ const addVideoNode = (participant, stream) => {
       videoNode = document.createElement('video');
       
       videoNode.setAttribute('id', 'video-' + participant.id);
-      videoNode.setAttribute('height', 140);
-      videoNode.setAttribute('width', 160);
+      videoNode.setAttribute('height', 500);
+      videoNode.setAttribute('width', 500);
       
       videoContainer.appendChild(videoNode);
       

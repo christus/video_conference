@@ -26,8 +26,9 @@ const main = async () => {
 
     try {
         await VoxeetSDK.initialize('OWRuY2ZjcDhhaHM1aA==', 'NGw3ajZvMjlvYzhycGhjaDk1Z25icWlkazY=');
-        
+
         await VoxeetSDK.session.open({ name: name });
+        
         initUI();
     } catch (e) {
         alert('Something went wrong : ' + e);
