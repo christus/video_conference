@@ -173,8 +173,8 @@ const addVideoNode = (participant, stream) => {
       videoNode = document.createElement('video');
       
       videoNode.setAttribute('id', 'video-' + participant.id);
-      videoNode.setAttribute('height', 500);
-      videoNode.setAttribute('width', 500);
+      videoNode.setAttribute('height', 140);
+      videoNode.setAttribute('width', 150);
       
       videoContainer.appendChild(videoNode);
       
